@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mini Amazon Clone</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f3f3f3;
+}
+
+header {
+  background: #131921;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h2 {
+  margin: 0;
+}
+
+.search-box input {
+  padding: 8px;
+  width: 300px;
+}
+
+.cart {
+  font-size: 18px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  padding: 20px;
+}
+
+.product {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.product img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+}
+
+button {
+  background: #ffd814;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  margin-top: 5px;
+  width: 100%;
+}
+
+button:hover {
+  background: #f7ca00;
+}
+
+.cart-box {
+  background: white;
+  padding: 10px;
+  margin: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>Mini Amazon</h2>
+
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search products...">
+  </div>
+
+  <div class="cart">
+    🛒 Cart: <span id="cartCount">0</span> | ₹<span id="totalPrice">0</span>
+  </div>
+</header>
+
+<div class="container" id="productList"></div>
+
+<script>
+const products = [
+  { id: 1, name: "Headphones", price: 10000, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
+
+  { id: 2, name: "Smart Watch", price: 2500, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
+
+  { id: 3, name: "Backpack", price: 999, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500" },
+
+  { id: 4, name: "Perfume", price: 1200, img: "https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500" },
+
+  { id: 5, name: " Wireless Mouse", price: 399, img: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500" },
+
+  { id: 6, name: "Apple Laptop", price: 94999, img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500" },
+
+  { id: 7, name: "iphone 14", price: 61999 , img: "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=500" },
+
+  { id: 8, name: "Sunglasses", price: 899, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500" }
+];
+
+let cart = [];
+const productList = document.getElementById("productList");
+
+function displayProducts(list) {
+  productList.innerHTML = "";
+  list.forEach(p => {
+    productList.innerHTML += `
+      <div class="product">
+        <img src="${p.img}" />
+        <h4>${p.name}</h4>
+        <p>₹${p.price}</p>
+        <button onclick="addToCart(${p.id})">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  updateCart();
+}
+
+function updateCart() {
+  document.getElementById("cartCount").innerText = cart.length;
+
+  let total = 0;
+  cart.forEach(item => total += item.price);
+
+  document.getElementById("totalPrice").innerText = total;
+}
+
+document.getElementById("search").addEventListener("input", function(e) {
+  const value = e.target.value.toLowerCase();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(value));
+  displayProducts(filtered);
+});
+
+displayProducts(products);
+</script>
+
+</body>
+</html>
